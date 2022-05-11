@@ -1,4 +1,3 @@
-import { format } from 'date-fns';
 import React, { useState } from 'react';
 import Footer from '../Shared/Footer/Footer';
 import AppointmentBanner from './AppointmentBanner';

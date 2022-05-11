@@ -21,8 +21,8 @@ const Contact = () => {
                         <div className="form-control">
                             <input type="text" placeholder="Subject" className="input input-bordered" />
                         </div>
-                        <div class="form-control">
-                            <textarea class="textarea textarea-bordered h-24" placeholder="Your Massage"></textarea>
+                        <div className="form-control">
+                            <textarea className="textarea textarea-bordered h-24" placeholder="Your Massage"></textarea>
                         </div>
                         <div>
                             <div className="form-control mt-6 w-32 mx-auto text-white">

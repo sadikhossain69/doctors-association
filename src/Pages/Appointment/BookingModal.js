@@ -1,20 +1,37 @@
 import React from 'react';
 
-const BookingModal = ({treatment}) => {
+const BookingModal = ({ treatment, footer, setTreatment }) => {
 
-    const {name, slots} = treatment
+
+    const { _id, name, slots } = treatment
+
+    const handleBooking = event => {
+        event.preventDefault()
+        const slot = event.target.slot.value
+        console.log(_id, name, slot);
+        setTreatment(null)
+    }
 
     return (
         <div>
             <input type="checkbox" id="booking-modal" className="modal-toggle" />
             <div className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
-                <label for="booking-modal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                    <label htmlFor="booking-modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+
                     <h3 className="font-bold text-lg text-center text-secondary">Booking For: {name}!</h3>
-                    <p className="py-4">You've been selected for a chance to get one year of subscription to use Wikipedia for free!</p>
-                    <div className="modal-action">
-                        <label for="booking-modal" className="btn">Yay!</label>
-                    </div>
+                    <form onSubmit={handleBooking} className=' text-center space-y-3'>
+                        <input type="text" value={footer.props.children[1]} readOnly className="input input-bordered w-full" />
+                        <select name='slot' className="select select-bordered w-full ">
+                            {
+                                slots.map(slot => <option  value={slot} >{slot}</option>)
+                            }
+                        </select>
+                        <input name='name' type="text" placeholder="Your Name" className="input input-bordered w-full" required />
+                        <input name='email' type="email" placeholder="Email Address" className="input input-bordered w-full" required />
+                        <input name='phone' type="number" placeholder="Phone Number" className="input input-bordered w-full" required />
+                        <input className=' bg-accent rounded-md text-white py-2 hover:bg-slate-600 hover:duration-300 cursor-pointer w-full uppercase' type="submit" value="Submit" />
+                    </form>
                 </div>
             </div>
         </div>
