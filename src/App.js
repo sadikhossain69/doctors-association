@@ -4,6 +4,7 @@ import About from './Pages/About/About';
 import Home from './Pages/Home/Home';
 import Login from './Pages/Login/Login';
 import PageNotFound from './Pages/PageNotFound/PageNotFound';
+import Footer from './Pages/Shared/Footer/Footer';
 import Navbar from './Pages/Shared/Navbar/Navbar';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path='/login' element={<Login/>} />
           <Route path='*' element={<PageNotFound/>} />
         </Routes>
+        <Footer/>
       </div>
     </>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import doctor from '../../assets/images/doctor.png'
+import doctorSmall from '../../assets/images/doctor-small.png'
 import appointment from '../../assets/images/appointment.png'
 
 const MakeAppoinment = () => {
@@ -8,7 +8,7 @@ const MakeAppoinment = () => {
             background: `url(${appointment})`
         }} className='flex justify-center items-center mt-7'>
             <div className='flex-1 hidden lg:block md:hidden'>
-                <img className='mt-[-120px]' src={doctor} alt="" />
+                <img className='mt-[-120px]' src={doctorSmall} alt="" />
             </div>
             <div className='flex-1 text-white space-y-5 p-5'>
                 <h3 className='text-xl text-primary font-bold'>Appointment</h3>
