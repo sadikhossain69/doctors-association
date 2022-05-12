@@ -1,8 +1,8 @@
 import React from 'react';
 
-const infoCard = ({ img, cardTitle, bgClass }) => {
+const infoCard = ({ img, cardTitle, bgclassName }) => {
     return (
-        <div className={`card lg:card-side shadow-xl ${bgClass}`}>
+        <div className={`card lg:card-side shadow-xl ${bgclassName}`}>
             <figure className='pl-5 p-5'>
                 <img src={img} alt="Album" />
             </figure>

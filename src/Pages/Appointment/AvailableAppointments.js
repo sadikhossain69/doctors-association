@@ -15,7 +15,7 @@ const AvailableAppointments = ({ date, setDate }) => {
     }
 
     useEffect(() => {
-        axios.get('services.json')
+        axios.get('http://localhost:5000/service')
             .then(res => {
                 setServices(res.data);
             })

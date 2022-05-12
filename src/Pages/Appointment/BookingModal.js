@@ -27,9 +27,13 @@ const BookingModal = ({ treatment, footer, setTreatment }) => {
                                 slots.map(slot => <option  value={slot} >{slot}</option>)
                             }
                         </select>
+                        
                         <input name='name' type="text" placeholder="Your Name" className="input input-bordered w-full" required />
+
                         <input name='email' type="email" placeholder="Email Address" className="input input-bordered w-full" required />
+
                         <input name='phone' type="number" placeholder="Phone Number" className="input input-bordered w-full" required />
+
                         <input className=' bg-accent rounded-md text-white py-2 hover:bg-slate-600 hover:duration-300 cursor-pointer w-full uppercase' type="submit" value="Submit" />
                     </form>
                 </div>
