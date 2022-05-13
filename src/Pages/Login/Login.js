@@ -1,29 +1,39 @@
 import React from 'react';
-import { useSignInWithGoogle, } from 'react-firebase-hooks/auth';
+import { useSignInWithEmailAndPassword, useSignInWithGoogle, } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
 import auth from '../../firebase.init';
 import { useForm } from "react-hook-form";
+import Loading from '../Shared/Loading/Loading';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
 
-    const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+    const [signInWithGoogle, googleUser, googleLoading, googleError] = useSignInWithGoogle(auth);
+    const [
+        signInWithEmailAndPassword,
+        emailUser,
+        emailLoading,
+        emailError,
+    ] = useSignInWithEmailAndPassword(auth);
 
     const { register, formState: { errors }, handleSubmit } = useForm();
 
-    if (loading) {
-        return <p>Loading...</p>
+    if (googleLoading || emailLoading) {
+        return <Loading />
     }
 
-    if (error) {
-        toast.error(error.message, { id: "error" })
+    if (googleError || emailError) {
+        toast.error(googleError?.message || emailError?.message, { id: "error" })
     }
 
-    if (user) {
+    if (googleUser || emailUser) {
+        console.log(googleUser || emailUser);
         toast.success("User Logged In", { id: 'Login' })
     }
 
     const onSubmit = data => {
         console.log(data);
+        signInWithEmailAndPassword(data.email, data.password)
     }
 
 
@@ -79,6 +89,11 @@ const Login = () => {
 
                         <input className='btn w-full max-w-xs' type="submit" value="Login" />
                     </form>
+                    <p className=' mt-2 text-center'>
+                        <small>
+                            New to Doctors Association? <Link className=' text-primary' to='/signup'>Create A New Account</Link>
+                        </small>
+                    </p>
 
 
                     <div className="divider">OR</div>
