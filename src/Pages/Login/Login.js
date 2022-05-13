@@ -16,7 +16,7 @@ const Login = () => {
         emailError,
     ] = useSignInWithEmailAndPassword(auth);
 
-    const { register, formState: { errors }, handleSubmit } = useForm();
+    const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
     if (googleLoading || emailLoading) {
         return <Loading />
@@ -34,6 +34,7 @@ const Login = () => {
     const onSubmit = data => {
         console.log(data);
         signInWithEmailAndPassword(data.email, data.password)
+        reset()
     }
 
 
