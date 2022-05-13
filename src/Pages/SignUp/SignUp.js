@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import auth from '../../firebase.init';
 import { useForm } from "react-hook-form";
 import Loading from '../Shared/Loading/Loading';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 
 const SignUp = () => {
@@ -22,6 +22,9 @@ const SignUp = () => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
     const navigate = useNavigate()
+    const location = useLocation()
+
+    let from = location.state?.from?.pathname || "/";
 
     if (googleLoading || emailLoading || updating) {
         return <Loading />
@@ -34,7 +37,7 @@ const SignUp = () => {
     if (googleUser || emailUser) {
         console.log(googleUser || emailUser);
         toast.success("User Logged In", { id: 'Login' })
-        navigate('/appointment')
+        navigate(from, { replace: true });
     }
 
     const onSubmit = async data => {
