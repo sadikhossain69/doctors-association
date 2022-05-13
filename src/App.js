@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import About from './Pages/About/About';
@@ -19,6 +20,7 @@ function App() {
           <Route path='/appointment' element={<Appointment/>} />
           <Route path='*' element={<PageNotFound/>} />
         </Routes>
+        <Toaster />
       </div>
     </>
   );
