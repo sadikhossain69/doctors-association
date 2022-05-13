@@ -1,10 +1,10 @@
 import React from 'react';
-import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile, } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
 import auth from '../../firebase.init';
 import { useForm } from "react-hook-form";
 import Loading from '../Shared/Loading/Loading';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const SignUp = () => {
@@ -15,26 +15,31 @@ const SignUp = () => {
         emailUser,
         emailLoading,
         emailError,
-      ] = useCreateUserWithEmailAndPassword(auth, {sendEmailVerification: true});
+    ] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
+
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
-    if (googleLoading || emailLoading) {
+    const navigate = useNavigate()
+
+    if (googleLoading || emailLoading || updating) {
         return <Loading />
     }
 
-    if (googleError || emailError) {
-        toast.error(googleError?.message || emailError?.message, { id: "error" })
+    if (googleError || emailError || updateError) {
+        toast.error(googleError?.message || emailError?.message || updateError?.message, { id: "error" })
     }
 
     if (googleUser || emailUser) {
         console.log(googleUser || emailUser);
         toast.success("User Logged In", { id: 'Login' })
+        navigate('/appointment')
     }
 
-    const onSubmit = data => {
-        console.log(data);
-        createUserWithEmailAndPassword(data.email, data.password)
+    const onSubmit = async data => {
+        await createUserWithEmailAndPassword(data.email, data.password)
+        await updateProfile({ displayName: data.name });
         reset()
     }
 
