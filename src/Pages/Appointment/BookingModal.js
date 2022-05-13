@@ -1,6 +1,10 @@
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../firebase.init';
 
 const BookingModal = ({ treatment, footer, setTreatment }) => {
+
+    const [user, loading, error] = useAuthState(auth);
 
 
     const { _id, name, slots } = treatment
@@ -24,13 +28,13 @@ const BookingModal = ({ treatment, footer, setTreatment }) => {
                         <input type="text" value={footer.props.children[1]} readOnly className="input input-bordered w-full" />
                         <select name='slot' className="select select-bordered w-full ">
                             {
-                                slots.map(slot => <option  value={slot} >{slot}</option>)
+                                slots.map((slot, index) => <option key={index} value={slot} >{slot}</option>)
                             }
                         </select>
                         
-                        <input name='name' type="text" placeholder="Your Name" className="input input-bordered w-full" required />
+                        <input name='name' type="text" value={user?.displayName} className="input input-bordered w-full" readOnly required />
 
-                        <input name='email' type="email" placeholder="Email Address" className="input input-bordered w-full" required />
+                        <input name='email' type="email" value={user?.email} className="input input-bordered w-full" readOnly required />
 
                         <input name='phone' type="number" placeholder="Phone Number" className="input input-bordered w-full" required />
 

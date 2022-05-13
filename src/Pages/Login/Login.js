@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSignInWithEmailAndPassword, useSignInWithGoogle, } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
 import auth from '../../firebase.init';
@@ -23,6 +23,13 @@ const Login = () => {
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
+    useEffect( () => {
+        if (googleUser || emailUser) {
+            toast.success("User Logged In", { id: 'Login' })
+            navigate(from, { replace: true });
+        }
+    }, [googleUser, emailUser, from, navigate] )
+
     if (googleLoading || emailLoading) {
         return <Loading />
     }
@@ -31,10 +38,7 @@ const Login = () => {
         toast.error(googleError?.message || emailError?.message, { id: "error" })
     }
 
-    if (googleUser || emailUser) {
-        toast.success("User Logged In", { id: 'Login' })
-        navigate(from, { replace: true });
-    }
+    
 
     const onSubmit = data => {
         signInWithEmailAndPassword(data.email, data.password)
@@ -43,7 +47,7 @@ const Login = () => {
 
 
     return (
-        <div className='flex items-center justify-center h-screen'>
+        <div className='flex items-center justify-center mt-5'>
             <div className="card w-96 bg-base-100 shadow-xl">
                 <div className="card-body">
                     <h2 className=" text-center font-bold text-2xl">Login</h2>

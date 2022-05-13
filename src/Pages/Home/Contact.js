@@ -8,7 +8,7 @@ const Contact = () => {
             background: `url(${appointment})`
         }} className=' mt-32'>
 
-            <div className='flex justify-center items-center h-screen flex-col'>
+            <div className='flex justify-center items-center pb-5 flex-col'>
                 <div className='text-center lg:m-12 m-4'>
                     <h4 className='text-xl font-bold text-primary'>Contact Us</h4>
                     <h2 className='text-4xl font-semibold text-white'>Stay connected with us</h2>
