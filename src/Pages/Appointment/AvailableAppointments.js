@@ -14,12 +14,14 @@ const AvailableAppointments = ({ date, setDate }) => {
         footer = <p>Available Appointments on {format(date, 'PP')}.</p>;
     }
 
+    const formattedDate = footer.props.children[1]
+
     useEffect(() => {
-        axios.get('http://localhost:5000/service')
+        axios.get(`http://localhost:5000/available?date=${formattedDate}`)
             .then(res => {
                 setServices(res.data);
             })
-    }, [])
+    }, [formattedDate])
 
     return (
         <div>
