@@ -1,11 +1,12 @@
+import axios from 'axios';
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import toast from 'react-hot-toast';
 import auth from '../../firebase.init';
 
 const BookingModal = ({ treatment, footer, setTreatment }) => {
 
     const [user, loading, error] = useAuthState(auth);
-
 
     const { _id, name, slots } = treatment
 
@@ -13,6 +14,51 @@ const BookingModal = ({ treatment, footer, setTreatment }) => {
         event.preventDefault()
         const slot = event.target.slot.value
         console.log(_id, name, slot);
+
+        // const booking = {
+        //     treatmentId: _id,
+        //     treatment: name,
+        //     date: footer.props.children[1],
+        //     slot,
+        //     patient: user.email,
+        //     patientName: user.displayName,
+        //     phone: event.target.phone.value
+        // }
+
+        // fetch('http://localhost:5000/booking', {
+        //     method: 'POST',
+        //     headers: {
+        //         'content-type': 'application/json'
+        //     },
+        //     body: JSON.stringify(booking)
+        // })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         console.log(data);
+        //     })
+
+        axios.post('http://localhost:5000/booking', {
+            treatmentId: _id,
+            treatment: name,
+            date: footer.props.children[1],
+            slot,
+            patient: user.email,
+            patientName: user.displayName,
+            phone: event.target.phone.value
+        })
+        .then(res => {
+            console.log(res);
+            if(res.data.success) {
+                toast.success(`Appointment is set, ${footer.props.children[1]}, at ${slot}`, {id: 'appointment success'})
+            }
+            else {
+                toast.error(`Already have an appointment on ${res.data?.booking?.date} at ${res.data?.booking?.slot}`, {id: 'appointment failed'})
+            }
+        })
+        .catch(err => {
+            console.error(err)
+        })
+
         setTreatment(null)
     }
 
@@ -31,7 +77,7 @@ const BookingModal = ({ treatment, footer, setTreatment }) => {
                                 slots.map((slot, index) => <option key={index} value={slot} >{slot}</option>)
                             }
                         </select>
-                        
+
                         <input name='name' type="text" value={user?.displayName} className="input input-bordered w-full" readOnly required />
 
                         <input name='email' type="email" value={user?.email} className="input input-bordered w-full" readOnly required />
