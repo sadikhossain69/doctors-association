@@ -4,7 +4,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
 import auth from '../../firebase.init';
 
-const BookingModal = ({ treatment, footer, setTreatment }) => {
+const BookingModal = ({ treatment, footer, setTreatment, refetch }) => {
 
     const [user, loading, error] = useAuthState(auth);
 
@@ -58,6 +58,8 @@ const BookingModal = ({ treatment, footer, setTreatment }) => {
         .catch(err => {
             console.error(err)
         })
+        
+        refetch()
 
         setTreatment(null)
     }
