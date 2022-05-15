@@ -5,6 +5,7 @@ import auth from '../../firebase.init';
 import { useForm } from "react-hook-form";
 import Loading from '../Shared/Loading/Loading';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useToken from '../../hooks/useToken';
 
 
 const SignUp = () => {
@@ -16,10 +17,13 @@ const SignUp = () => {
         emailLoading,
         emailError,
     ] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
+    const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+    
+    const [token] = useToken(googleUser || emailUser)
+    
 
-    const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -35,8 +39,8 @@ const SignUp = () => {
     }
 
     if (googleUser || emailUser) {
-        console.log(googleUser || emailUser);
-        toast.success("User Logged In", { id: 'Login' })
+        // console.log(googleUser || emailUser);
+        toast.success("User Logged In", { id: 'SignUp' })
         navigate(from, { replace: true });
     }
 

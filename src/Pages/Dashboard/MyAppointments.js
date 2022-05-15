@@ -9,7 +9,7 @@ const MyAppointments = () => {
 
     useEffect(() => {
         if (user) {
-            fetch(`http://localhost:5000/booking?patient=${user.email}`)
+            fetch(`http://localhost:5000/booking?patient=${user?.email}`)
                 .then(res => res.json())
                 .then(data => setAppointments(data))
         }
@@ -17,7 +17,6 @@ const MyAppointments = () => {
 
     return (
         <div>
-            <h2>My Appointments {appointments.length} </h2>
             <div className="overflow-x-auto">
                 <table className="table w-full">
                     <thead>
@@ -31,9 +30,9 @@ const MyAppointments = () => {
                     </thead>
                     <tbody>
                         {
-                            appointments.map(a =>
+                            appointments.map((a, index) =>
                                 <tr>
-                                    <th>{1}</th>
+                                    <td>{index + 1}</td>
                                     <td>{a.patientName}</td>
                                     <td>{a.date}</td>
                                     <td>{a.slot}</td>
