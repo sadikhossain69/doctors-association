@@ -1,11 +1,36 @@
 import React from 'react';
+import toast from 'react-hot-toast';
 
-const UserRow = ({user, index}) => {
+const UserRow = ({ user, index, refetch }) => {
+
+    const { email, role } = user
+
+    const makeAdmin = () => {
+        fetch(`http://localhost:5000/user/admin/${email}`, {
+            method: 'PUT',
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                refetch()
+                console.log(data);
+                toast.success("Successfully make Admin", { id: 'admin toast' })
+            })
+    }
+
     return (
         <tr>
             <th>{index + 1}</th>
-            <td>{user.email}</td>
-            <td><button className="btn btn-xs">Make Admin</button></td>
+            <td>{email}</td>
+            <td>{
+                role !== 'admin'
+                ? 
+                <button onClick={makeAdmin} className="btn btn-xs">Make Admin</button>
+                :
+                <button className='btn btn-xs bg-blue-500 border-0 hover:bg-blue-500'>Already Admin</button>
+            }</td>
             <td><button className="btn btn-xs">Delete User</button></td>
         </tr>
     );
