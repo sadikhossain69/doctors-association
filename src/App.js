@@ -6,6 +6,7 @@ import Appointment from './Pages/Appointment/Appointment';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import MyAppointments from './Pages/Dashboard/MyAppointments';
 import MyReview from './Pages/Dashboard/MyReview';
+import Users from './Pages/Dashboard/Users';
 import Home from './Pages/Home/Home';
 import Login from './Pages/Login/Login';
 import PageNotFound from './Pages/PageNotFound/PageNotFound';
@@ -28,13 +29,10 @@ function App() {
               <Appointment />
             </RequireAuth>
           } />
-          <Route path='/dashboard' element={
-            <RequireAuth>
-              <Dashboard />
-            </RequireAuth>
-          } >
-            <Route index element={<MyAppointments/>} />
-            <Route path='review' element={<MyReview/>} />
+          <Route path='/dashboard' element={<RequireAuth><Dashboard /></RequireAuth>} >
+            <Route index element={<MyAppointments />} />
+            <Route path='review' element={<MyReview />} />
+            <Route path='users' element={<Users />} />
           </Route>
           <Route path='*' element={<PageNotFound />} />
         </Routes>
