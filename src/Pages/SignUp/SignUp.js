@@ -38,7 +38,7 @@ const SignUp = () => {
         toast.error(googleError?.message || emailError?.message || updateError?.message, { id: "error" })
     }
 
-    if (googleUser || emailUser) {
+    if (token) {
         // console.log(googleUser || emailUser);
         toast.success("User Logged In", { id: 'SignUp' })
         navigate(from, { replace: true });
