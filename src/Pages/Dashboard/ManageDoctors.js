@@ -5,7 +5,7 @@ import DoctorRow from './DoctorRow';
 
 const ManageDoctors = () => {
 
-    const { data: doctors, isLoading } = useQuery('doctors', () => fetch('https://gentle-mountain-57996.herokuapp.com/doctor', {
+    const { data: doctors, isLoading, refetch } = useQuery('doctors', () => fetch('https://gentle-mountain-57996.herokuapp.com/doctor', {
         headers: {
             authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
@@ -36,6 +36,7 @@ const ManageDoctors = () => {
                                 key={doctor._id}
                                 doctor={doctor}
                                 index={index}
+                                refetch={refetch}
                             /> )
                         }
                     </tbody>
