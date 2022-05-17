@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { useQuery } from 'react-query';
 import Loading from '../Shared/Loading/Loading';
 
@@ -20,20 +21,39 @@ const AddDoctor = () => {
             method: 'POST',
             body: formData
         })
-        .then(res => res.json())
-        .then(result => {
-            if(result.success) {
-                const img = result.data.url;
-                const doctor = {
-                    name: data.name,
-                    email: data.email,
-                    speciality: data.speciality,
-                    img: img
+            .then(res => res.json())
+            .then(result => {
+                if (result.success) {
+                    const img = result.data.url;
+                    const doctor = {
+                        name: data.name,
+                        email: data.email,
+                        speciality: data.speciality,
+                        img: img
+                    }
+
+                    fetch(`http://localhost:5000/doctor`, {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json',
+                            authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                        },
+                        body: JSON.stringify(doctor)
+                    })
+                        .then(res => res.json())
+                        .then(inserted => {
+                            if (inserted.insertedId) {
+                                toast.success('Doctor Added', { id: 'doctor added' })
+                            }
+                            else {
+                                toast.error("Failed to add the doctor", { id: 'Failed to add the doctor' })
+                            }
+                        })
+
                 }
-                
-            }
-            console.log( "imgbb",result);
-        })
+                console.log("imgbb", result);
+                reset()
+            })
     }
 
     if (isLoading) {
