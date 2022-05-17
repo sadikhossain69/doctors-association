@@ -18,7 +18,7 @@ const AvailableAppointments = ({ date, setDate }) => {
 
     const formattedDate = footer.props.children[1]
 
-    const { isLoading, data: services, refetch } = useQuery(['available', formattedDate], () => fetch(`http://localhost:5000/available?date=${formattedDate}`)
+    const { isLoading, data: services, refetch } = useQuery(['available', formattedDate], () => fetch(`https://gentle-mountain-57996.herokuapp.com/available?date=${formattedDate}`)
     .then(res => res.json())
     )
 
@@ -27,7 +27,7 @@ const AvailableAppointments = ({ date, setDate }) => {
     }
 
     // useEffect(() => {
-    //     axios.get(`http://localhost:5000/available?date=${formattedDate}`)
+    //     axios.get(`https://gentle-mountain-57996.herokuapp.com/available?date=${formattedDate}`)
     //         .then(res => {
     //             setServices(res.data);
     //         })

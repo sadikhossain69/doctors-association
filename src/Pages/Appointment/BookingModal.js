@@ -25,7 +25,7 @@ const BookingModal = ({ treatment, footer, setTreatment, refetch }) => {
         //     phone: event.target.phone.value
         // }
 
-        // fetch('http://localhost:5000/booking', {
+        // fetch('https://gentle-mountain-57996.herokuapp.com/booking', {
         //     method: 'POST',
         //     headers: {
         //         'content-type': 'application/json'
@@ -37,7 +37,7 @@ const BookingModal = ({ treatment, footer, setTreatment, refetch }) => {
         //         console.log(data);
         //     })
 
-        axios.post('http://localhost:5000/booking', {
+        axios.post('https://gentle-mountain-57996.herokuapp.com/booking', {
             treatmentId: _id,
             treatment: name,
             date: footer.props.children[1],
