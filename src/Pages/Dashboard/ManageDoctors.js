@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import Loading from '../Shared/Loading/Loading';
+import DeleteConfirmationModal from './DeleteConfirmationModal';
 import DoctorRow from './DoctorRow';
 
 const ManageDoctors = () => {
+
+    const [deletingDoctor, setDeletingDoctor] = useState(null)
 
     const { data: doctors, isLoading, refetch } = useQuery('doctors', () => fetch('https://gentle-mountain-57996.herokuapp.com/doctor', {
         headers: {
@@ -37,11 +40,15 @@ const ManageDoctors = () => {
                                 doctor={doctor}
                                 index={index}
                                 refetch={refetch}
+                                setDeletingDoctor={setDeletingDoctor}
                             /> )
                         }
                     </tbody>
                 </table>
             </div>
+            {
+                deletingDoctor && <DeleteConfirmationModal deletingDoctor={deletingDoctor} refetch={refetch} setDeletingDoctor={setDeletingDoctor} />
+            }
         </div>
     );
 };

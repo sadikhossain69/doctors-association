@@ -1,34 +1,8 @@
 import React from 'react';
-import toast from 'react-hot-toast';
 
-const DoctorRow = ({ doctor, index, refetch }) => {
+const DoctorRow = ({ doctor, index, refetch, setDeletingDoctor }) => {
 
     const { name, speciality, img, email } = doctor
-
-    const handleDelete = email => {
-
-        const proceed = window.confirm("Are You Sure?")
-
-        if (proceed) {
-            fetch(`https://gentle-mountain-57996.herokuapp.com/doctor/${email}`, {
-                method: 'DELETE',
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    if (data.deletedCount) {
-                        toast.success("Doctor Deleted Successfully", { id: 'Doctor Deleted Successfully' })
-                        refetch()
-                    }
-                    else {
-                        toast.error('Failed to Delete Doctor', { id: "Failed to Delete Doctor" })
-                    }
-                })
-        }
-    }
 
     return (
         <tr>
@@ -37,7 +11,9 @@ const DoctorRow = ({ doctor, index, refetch }) => {
             <td>{name}</td>
             <td>{speciality}</td>
             <td>{email}</td>
-            <td><button onClick={() => handleDelete(email)} className='btn btn-xs btn-outline btn-error' >Delete</button></td>
+            <td>
+                <label onClick={() => setDeletingDoctor(doctor)} htmlFor="delete-confirm-modal" className="modal-button btn btn-xs btn-outline btn-error">Delete</label>
+            </td>
         </tr>
     );
 };
