@@ -1,6 +1,5 @@
-import axios from 'axios';
 import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import Loading from '../Shared/Loading/Loading';
 import BookingModal from './BookingModal';

@@ -4,11 +4,11 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
 import auth from '../../firebase.init';
 
-const BookingModal = ({ treatment, footer, setTreatment, refetch }) => {
+const BookingModal = ({ treatment, footer, setTreatment, refetch, }) => {
 
-    const [user, loading, error] = useAuthState(auth);
+    const [user] = useAuthState(auth);
 
-    const { _id, name, slots } = treatment
+    const { _id, name, slots, price } = treatment
 
     const handleBooking = event => {
         event.preventDefault()
@@ -42,6 +42,7 @@ const BookingModal = ({ treatment, footer, setTreatment, refetch }) => {
             treatment: name,
             date: footer.props.children[1],
             slot,
+            price,
             patient: user.email,
             patientName: user.displayName,
             phone: event.target.phone.value
@@ -83,6 +84,8 @@ const BookingModal = ({ treatment, footer, setTreatment, refetch }) => {
                         <input name='name' type="text" value={user?.displayName} className="input input-bordered w-full" readOnly required />
 
                         <input name='email' type="email" value={user?.email} className="input input-bordered w-full" readOnly required />
+
+                        <input name='price' type="number" value={price} className="input input-bordered w-full" readOnly required />
 
                         <input name='phone' type="number" placeholder="Phone Number" className="input input-bordered w-full" required />
 
