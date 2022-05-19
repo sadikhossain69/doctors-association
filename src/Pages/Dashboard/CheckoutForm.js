@@ -1,5 +1,6 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useEffect, useState } from 'react';
+import Loading from '../Shared/Loading/Loading';
 
 const CheckoutForm = ({ appointment }) => {
 
@@ -7,13 +8,15 @@ const CheckoutForm = ({ appointment }) => {
     const elements = useElements();
     const [cardError, setCardError] = useState('')
     const [success, setSuccess] = useState('')
+    const [processing, setProcessing] = useState(false)
     const [transactionId, setTransactionId] = useState('')
     const [clientSecret, setClientSecret] = useState('')
 
-    const { price, patient, patientName } = appointment
+    const { price, _id, patient, patientName } = appointment
+
 
     useEffect(() => {
-        fetch(`http://localhost:5000/create-payment-intent`, {
+        fetch(`https://gentle-mountain-57996.herokuapp.com/create-payment-intent`, {
             method: "POST",
             headers: {
                 authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -29,6 +32,11 @@ const CheckoutForm = ({ appointment }) => {
                 }
             })
     }, [price])
+
+    
+    if(processing) {
+        return <Loading/>
+    }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -57,6 +65,7 @@ const CheckoutForm = ({ appointment }) => {
         }
 
         setSuccess('')
+        setProcessing(true)
 
         const { paymentIntent, error: intentError } = await stripe.confirmCardPayment(
             clientSecret,
@@ -73,12 +82,33 @@ const CheckoutForm = ({ appointment }) => {
 
         if (intentError) {
             setCardError(intentError?.message)
+            setProcessing(false)
         }
         else {
             setCardError('')
             console.log(paymentIntent);
             setTransactionId(paymentIntent.id)
             setSuccess('Congratulation! Your Payment Is completed')
+
+            const payment = {
+                appointment: _id,
+                transactionId: paymentIntent.id,
+            }
+
+            fetch( `https://gentle-mountain-57996.herokuapp.com/booking/${_id}`, {
+                method: "PATCH",
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(payment)
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setProcessing(false)
+            })
+
         }
 
     }
